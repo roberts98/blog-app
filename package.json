@@ -1,0 +1,25 @@
+{
+  "name": "blog-app",
+  "version": "1.0.0",
+  "description": "I created this application to learn postgresql, nestjs and vue.",
+  "main": "index.js",
+  "scripts": {
+    "server:dev": "cd server && npm run start:dev",
+    "client:dev": "cd client && npm run serve",
+    "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roberts98/blog-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roberts98/blog-app/issues"
+  },
+  "homepage": "https://github.com/roberts98/blog-app#readme",
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  }
+}
