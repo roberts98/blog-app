@@ -1,0 +1,12 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Spartan', sans-serif;
+  background-color: $col-light;
+  min-height: 100vh;
+  min-width: 100vw;
+}

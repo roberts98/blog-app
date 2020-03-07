@@ -6,7 +6,8 @@
   "scripts": {
     "server:dev": "cd server && npm run start:dev",
     "client:dev": "cd client && npm run serve",
-    "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
+    "prettier:client": "prettier --write client/src/**/*.{js,vue}"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/roberts98/blog-app#readme",
   "devDependencies": {
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "prettier": "^1.19.1"
   }
 }
