@@ -14,9 +14,9 @@ import { Post as PostEntity } from './post.entity';
 import { CreatePostDto } from './dto/createPost.dto';
 
 @Controller('posts')
-@UseGuards(AuthGuard())
 export class PostController {
   constructor(private postService: PostService) {}
+  @UseGuards(AuthGuard())
   @Post()
   createPost(
     @GetUser() user: User,

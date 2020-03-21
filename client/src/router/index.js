@@ -1,11 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import store from '../store';
-import { UPDATE_ACCESS_TOKEN } from '../store/modules/auth/types';
 import Register from '../views/Register';
 import Home from '../views/Home';
 import Login from '../views/Login';
+import CreatePost from '../views/CreatePost';
 
 Vue.use(Router);
 
@@ -23,18 +22,35 @@ const router = new Router({
     {
       path: '/login',
       component: Login
+    },
+    {
+      path: '/add-post',
+      component: CreatePost,
+      meta: {
+        privateRoute: true
+      }
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (localStorage.getItem('token')) {
-    if (to.fullPath === '/login' || to.fullPath === '/register') {
-      return next('/');
-    }
+  if (to.fullPath === '/') {
+    return next();
   }
 
-  next();
+  if (to.meta.privateRoute) {
+    if (localStorage.getItem('token')) {
+      return next();
+    } else {
+      return next('/login');
+    }
+  } else {
+    if (localStorage.getItem('token')) {
+      return next('/');
+    } else {
+      return next();
+    }
+  }
 });
 
 export default router;

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import router from '../../../router';
 
 import { login } from '../../../services/auth.service';
@@ -25,7 +26,7 @@ const actions = {
       commit(AUTH_REQUEST);
       const response = await login(user.username, user.password);
       const { accesToken } = response.data;
-
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accesToken}`;
       localStorage.setItem('token', accesToken);
       commit(AUTH_SUCCESS, accesToken);
       router.push('/');
@@ -40,6 +41,7 @@ const actions = {
 
   logout({ commit }) {
     localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
     commit(UPDATE_ACCESS_TOKEN, null);
   }
 };
