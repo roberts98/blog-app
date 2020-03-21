@@ -11,10 +11,12 @@
 <script>
 export default {
   name: 'Button',
-  props: ['variant', 'type'],
+  props: ['variant', 'type', 'onClick'],
   methods: {
     handleClick() {
-      this.$emit('onClick');
+      if (this.$props.onClick) {
+        this.$props.onClick();
+      }
     }
   }
 };
@@ -30,6 +32,11 @@ export default {
   border-radius: 5px;
   font-weight: 700;
   border: 2px solid transparent;
+
+  &:disabled {
+    background-color: $col-gray;
+    pointer-events: none;
+  }
 
   &--primary {
     background: $col-primary;

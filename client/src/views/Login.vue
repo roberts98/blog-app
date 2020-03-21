@@ -21,14 +21,17 @@
           type="password"
           :className="{ error: passwordError }"
         />
-        <Button type="submit" variant="primary">Sign in</Button>
+        <Button type="submit" :disabled="isLoading" variant="primary"
+          >Sign in</Button
+        >
       </form>
     </Box>
   </div>
 </template>
 
 <script>
-import { login } from '../services/auth.service';
+import { mapState } from 'vuex';
+
 import Box from '../components/Box';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -52,15 +55,15 @@ export default {
       usernameError: ''
     };
   },
+  computed: mapState({
+    isLoading: state => state.auth.isLoading
+  }),
   methods: {
     async handleSubmit() {
-      try {
-        await login(this.username, this.password);
-        this.username = this.passowrd = '';
-        this.$router.push('/');
-      } catch (error) {        
-        this.error = error;
-      }
+      this.$store.dispatch('auth/login', {
+        username: this.username,
+        password: this.password
+      });
     }
   }
 };

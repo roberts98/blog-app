@@ -3,7 +3,10 @@
     <h2 class="header__logo">
       <router-link to="/">Blog app</router-link>
     </h2>
-    <div>
+    <div v-if="token">
+      <Button :onClick="logout" variant="white">Logout</Button>
+    </div>
+    <div v-else>
       <router-link to="/login">
         <Button variant="white">Sign in</Button>
       </router-link>
@@ -15,12 +18,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Button from './Button';
 
 export default {
   name: 'Header',
   components: {
     Button
+  },
+  computed: mapState({
+    token: state => state.auth.token
+  }),
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout');
+    }
   }
 };
 </script>
