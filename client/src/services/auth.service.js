@@ -9,3 +9,13 @@ export function register(username, password) {
     }
   });
 }
+
+export function login(username, password) {
+  return axios('/auth/login', {
+    method: 'POST',
+    data: {
+      username,
+      password
+    }
+  });
+}
