@@ -6,3 +6,9 @@ export function createPost(data) {
     data
   });
 }
+
+export function getPosts() {
+  return axios('/posts', {
+    method: 'GET'
+  });
+}
