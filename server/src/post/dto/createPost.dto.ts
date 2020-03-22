@@ -1,4 +1,4 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsString, MinLength, IsUrl } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -7,4 +7,10 @@ export class CreatePostDto {
 
   @IsString()
   body: string;
+
+  @IsString()
+  summary: string;
+
+  @IsUrl()
+  thumbnail: string;
 }

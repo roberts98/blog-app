@@ -7,6 +7,7 @@ import {
   GET_POSTS_REQUEST,
   GET_POSTS_SUCCESS
 } from './types';
+import router from '../../../router';
 
 const state = {
   items: [],
@@ -22,6 +23,7 @@ const actions = {
       commit(ADD_POST_REQUEST);
       const response = await createPost(post);
       commit(ADD_POST_SUCCESS, response.data);
+      router.push('/');
     } catch (error) {
       commit(ADD_POST_FAILURE, error);
     }

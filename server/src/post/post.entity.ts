@@ -19,6 +19,15 @@ export class Post extends BaseEntity {
   @Column()
   body: string;
 
+  @Column()
+  summary: string;
+
+  @Column()
+  thumbnail: string;
+
+  @Column()
+  createdAt: Date;
+
   @ManyToOne(type => User, user => user.posts, { eager: false })
   user: User;
 

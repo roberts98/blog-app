@@ -1,9 +1,19 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <Input v-model="title" placeholder="Title" id="title" label="Title*" type="title" />
-    <Input v-model="body" placeholder="Body" id="body" label="Body*" type="body" />
-    <Button type="submit" variant="primary">Create Post</Button>
-  </form>
+  <div class="container">
+    <form @submit.prevent="handleSubmit">
+      <Input v-model="title" placeholder="Title" id="title" label="Title*" type="text" />
+      <Input v-model="body" placeholder="Body" id="body" label="Body*" type="text" />
+      <Input v-model="summary" placeholder="Summary" id="summary" label="Summary*" type="text" />
+      <Input
+        v-model="thumbnail"
+        placeholder="Thumbnail"
+        id="thumbnail"
+        label="Thumbnail*"
+        type="text"
+      />
+      <Button type="submit" variant="primary">Create Post</Button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -21,15 +31,19 @@ export default {
   data: function() {
     return {
       title: '',
-      body: ''
+      body: '',
+      summary: '',
+      thumbnail: ''
     };
   },
   methods: {
     handleSubmit() {
-      const { title, body } = this;
+      const { title, body, summary, thumbnail } = this;
       const post = {
         title,
-        body
+        body,
+        summary,
+        thumbnail
       };
       this.$store.dispatch('posts/addPost', post);
     }

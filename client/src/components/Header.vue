@@ -3,10 +3,10 @@
     <h2 class="header__logo">
       <router-link to="/">Blog app</router-link>
     </h2>
-    <div v-if="token">
+    <div v-if="token" class="header__buttons">
       <Button :onClick="logout" variant="white">Logout</Button>
     </div>
-    <div v-else>
+    <div v-else class="header__buttons">
       <router-link to="/login">
         <Button variant="white">Sign in</Button>
       </router-link>
@@ -64,8 +64,12 @@ export default {
     }
   }
 
-  .button {
-    margin-right: 20px;
+  &__buttons {
+    a:not(:last-child) {
+      .button {
+        margin-right: 20px;
+      }
+    }
   }
 }
 </style>
