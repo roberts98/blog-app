@@ -13,4 +13,8 @@ export class PostService {
   createPost(createPostDto: CreatePostDto, user: User) {
     return this.postRepository.createPost(createPostDto, user);
   }
+
+  getPosts() {
+    return this.postRepository.getPosts();
+  }
 }

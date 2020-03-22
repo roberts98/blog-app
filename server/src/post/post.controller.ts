@@ -4,6 +4,7 @@ import {
   UseGuards,
   Body,
   ValidationPipe,
+  Get,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -23,5 +24,10 @@ export class PostController {
     @Body(ValidationPipe) createPostDto: CreatePostDto,
   ): Promise<PostEntity> {
     return this.postService.createPost(createPostDto, user);
+  }
+
+  @Get()
+  getPosts(): Promise<PostEntity[]> {
+    return this.postService.getPosts();
   }
 }

@@ -19,4 +19,12 @@ export class PostRepository extends Repository<Post> {
 
     return post;
   }
+
+  async getPosts(): Promise<Post[]> {
+    const posts = await this.createQueryBuilder('post')
+      .innerJoin('post.user', 'user')
+      .addSelect(['user.username'])
+      .getMany();
+    return posts;
+  }
 }
