@@ -3,10 +3,13 @@
     <h2 class="header__logo">
       <router-link to="/">Blog app</router-link>
     </h2>
-    <div v-if="token" class="header__buttons">
+    <div v-if="token" class="header__right">
+      <div class="header__username">
+        Logged in as <router-link to="/add-post">{{ username }}</router-link>
+      </div>
       <Button :onClick="logout" variant="white">Logout</Button>
     </div>
-    <div v-else class="header__buttons">
+    <div v-else class="header__right">
       <router-link to="/login">
         <Button variant="white">Sign in</Button>
       </router-link>
@@ -28,7 +31,8 @@ export default {
     Button
   },
   computed: mapState({
-    token: state => state.auth.token
+    token: state => state.auth.token,
+    username: state => state.auth.user.username
   }),
   methods: {
     logout() {
@@ -64,7 +68,23 @@ export default {
     }
   }
 
-  &__buttons {
+  &__username {
+    color: $col-white;
+    font-weight: 500;
+    margin-right: 20px;
+
+    a {
+      color: $col-white;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+
     a:not(:last-child) {
       .button {
         margin-right: 20px;

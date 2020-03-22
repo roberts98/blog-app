@@ -6,11 +6,12 @@ import {
   AUTH_REQUEST,
   AUTH_SUCCESS,
   AUTH_FAILURE,
-  UPDATE_ACCESS_TOKEN
+  UPDATE_USER_DATA
 } from './types';
 
 const state = {
   token: null,
+  user: null,
   isLoading: false,
   error: ''
 };
@@ -21,28 +22,38 @@ const getters = {
 };
 
 const actions = {
-  async login({ commit }, user) {
+  async login({ commit }, userFormData) {
     try {
       commit(AUTH_REQUEST);
-      const response = await login(user.username, user.password);
-      const { accesToken } = response.data;
+      const response = await login(
+        userFormData.username,
+        userFormData.password
+      );
+      const { accesToken, user } = response.data;
+
       axios.defaults.headers.common['Authorization'] = `Bearer ${accesToken}`;
       localStorage.setItem('token', accesToken);
-      commit(AUTH_SUCCESS, accesToken);
+      localStorage.setItem('user', JSON.stringify(user));
+      commit(AUTH_SUCCESS, { accesToken, user });
       router.push('/');
     } catch (error) {
       commit(AUTH_FAILURE, error);
     }
   },
 
-  fetchToken({ commit }) {
-    commit(UPDATE_ACCESS_TOKEN, localStorage.getItem('token'));
+  fetchUser({ commit }) {
+    commit(UPDATE_USER_DATA, {
+      accesToken: localStorage.getItem('token'),
+      user: JSON.parse(localStorage.getItem('user'))
+    });
   },
 
   logout({ commit }) {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     delete axios.defaults.headers.common['Authorization'];
-    commit(UPDATE_ACCESS_TOKEN, null);
+    commit(UPDATE_USER_DATA, { accesToken: null, user: null });
+    router.push('/');
   }
 };
 
@@ -51,9 +62,10 @@ const mutations = {
     state.isLoading = true;
   },
 
-  [AUTH_SUCCESS](state, token) {
+  [AUTH_SUCCESS](state, data) {
     state.isLoading = false;
-    state.token = token;
+    state.token = data.accesToken;
+    state.user = data.user;
   },
 
   [AUTH_FAILURE](state, error) {
@@ -61,8 +73,9 @@ const mutations = {
     state.error = error;
   },
 
-  [UPDATE_ACCESS_TOKEN](state, token) {
-    state.token = token;
+  [UPDATE_USER_DATA](state, { accesToken, user }) {
+    state.token = accesToken;
+    state.user = user;
   }
 };
 

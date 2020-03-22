@@ -15,7 +15,7 @@ export default {
     Header
   },
   mounted() {
-    store.dispatch('auth/fetchToken');
+    store.dispatch('auth/fetchUser');
   }
 };
 </script>
