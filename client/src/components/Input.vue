@@ -1,8 +1,6 @@
 <template>
   <div class="input-wrapper">
-    <label :for="id">
-      {{ label }}
-    </label>
+    <label :for="id">{{ label }}</label>
     <input
       v-bind:value="value"
       v-on:input="$emit('input', $event.target.value)"
@@ -21,26 +19,30 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .input-wrapper {
   margin: 16px 0 32px 0;
-  display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 label {
-  margin-right: 20px;
+  display: block;
+  margin-bottom: 10px;
   min-width: 125px;
+  font-size: 12px;
+  font-weight: bold;
+  color: $col-dark-gray;
+  text-transform: uppercase;
 }
 
 input {
-  border: unset;
-  border-bottom: 1px solid $col-gray;
+  border: 1px solid $col-gray;
+  border-radius: 5px;
   outline: none;
   background: transparent;
   width: 400px;
-  padding: 5px 0;
+  padding: 10px 15px;
   width: 100%;
 
   &.error {

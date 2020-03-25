@@ -2,10 +2,10 @@
   <div class="post">
     <h2 class="post__title">
       {{ post.title }}
-      <span class="post__author"
-        >written by
-        <span class="post__username">{{ post.user.username }}</span></span
-      >
+      <span class="post__author">
+        written by
+        <span class="post__username">{{ post.user.username }}</span>
+      </span>
     </h2>
     <p class="post__date">Published: {{ postDate }}</p>
     <div class="post__thumbnail">

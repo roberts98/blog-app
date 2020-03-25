@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Axios from 'axios';
+import wysiwyg from 'vue-wysiwyg';
 import 'normalize.css';
 
 import App from './App.vue';
@@ -16,6 +17,8 @@ if (token) {
     'Authorization'
   ] = `Bearer ${token}`;
 }
+
+Vue.use(wysiwyg, {});
 
 new Vue({
   router,
