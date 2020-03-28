@@ -4,9 +4,11 @@ import {
   ManyToOne,
   BaseEntity,
   Entity,
+  OneToMany,
 } from 'typeorm';
 
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
+import { Comment } from '../comment/comment.entity';
 
 @Entity()
 export class Post extends BaseEntity {
@@ -33,4 +35,7 @@ export class Post extends BaseEntity {
 
   @Column()
   userId: number;
+
+  @OneToMany(type => Comment, comment => comment.post, { eager: true })
+  comments: Comment[];
 }

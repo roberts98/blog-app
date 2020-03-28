@@ -31,4 +31,10 @@ export class PostRepository extends Repository<Post> {
       .getMany();
     return posts;
   }
+
+  async getPost(id: number): Promise<Post> {
+    const post = await this.findOne(id);
+
+    return post;
+  }
 }

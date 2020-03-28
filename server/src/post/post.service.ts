@@ -17,4 +17,8 @@ export class PostService {
   getPosts() {
     return this.postRepository.getPosts();
   }
+
+  getPost(id: number) {
+    return this.postRepository.getPost(id);
+  }
 }
