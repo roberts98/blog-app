@@ -33,7 +33,11 @@ export class PostRepository extends Repository<Post> {
   }
 
   async getPost(id: number): Promise<Post> {
-    const post = await this.findOne(id);
+    const post = await this.createQueryBuilder('post')
+      .innerJoin('post.user', 'user')
+      .addSelect(['user.username'])
+      .where('post.id = :id', { id })
+      .getOne();
 
     return post;
   }
