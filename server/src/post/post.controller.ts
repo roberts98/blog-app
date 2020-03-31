@@ -14,6 +14,7 @@ import { GetUser } from '../auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { Post as PostEntity } from './post.entity';
 import { CreatePostDto } from './dto/createPost.dto';
+import { Comment } from 'src/comment/comment.entity';
 
 @Controller('posts')
 export class PostController {
@@ -35,5 +36,10 @@ export class PostController {
   @Get(':postId')
   getPost(@Param('postId') id: number): Promise<PostEntity> {
     return this.postService.getPost(id);
+  }
+
+  @Get(':postId/comments')
+  getComments(@Param('postId') postId: number): Promise<Comment[]> {
+    return this.postService.getComments(postId);
   }
 }

@@ -27,4 +27,12 @@ export class CommentRepository extends Repository<Comment> {
 
     return comment;
   }
+
+  async getCommentsForPost(postId: number): Promise<Comment[]> {
+    return this.createQueryBuilder('comment')
+      .where('comment.postId = :postId', { postId })
+      .innerJoin('comment.user', 'user')
+      .addSelect(['user.username'])
+      .getMany();
+  }
 }

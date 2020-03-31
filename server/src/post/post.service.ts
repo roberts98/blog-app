@@ -4,11 +4,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from './dto/createPost.dto';
 import { PostRepository } from './post.repository';
 import { Post } from './post.entity';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
+import { Comment } from '../comment/comment.entity';
+import { CommentRepository } from '../comment/comment.repository';
 
 @Injectable()
 export class PostService {
-  constructor(@InjectRepository(Post) private postRepository: PostRepository) {}
+  constructor(
+    @InjectRepository(Post) private postRepository: PostRepository,
+    @InjectRepository(Comment) private commentRepository: CommentRepository,
+  ) {}
 
   createPost(createPostDto: CreatePostDto, user: User) {
     return this.postRepository.createPost(createPostDto, user);
@@ -20,5 +25,9 @@ export class PostService {
 
   getPost(id: number) {
     return this.postRepository.getPost(id);
+  }
+
+  getComments(postId: number) {
+    return this.commentRepository.getCommentsForPost(postId);
   }
 }
