@@ -16,3 +16,7 @@ export function getPosts() {
 export function getPost(id) {
   return axios(`/posts/${id}`, { method: 'GET' });
 }
+
+export function getComments(postId) {
+  return axios(`/posts/${postId}/comments`, { method: 'GET' });
+}
