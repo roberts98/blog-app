@@ -7,7 +7,7 @@
 
 <script>
 import store from './store';
-import Header from './components/Header';
+import Header from './components/shared/Header';
 
 export default {
   name: 'App',

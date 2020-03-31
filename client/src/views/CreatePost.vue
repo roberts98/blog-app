@@ -6,10 +6,22 @@
         <span class="title">Add new post</span>
       </h1>
       <form class="create-post-form" @submit.prevent="handleSubmit">
-        <Input v-model="title" placeholder="Title" id="title" label="Title*" type="text" />
+        <Input
+          v-model="title"
+          placeholder="Title"
+          id="title"
+          label="Title*"
+          type="text"
+        />
         <label :for="id">Body</label>
         <wysiwyg id="body" v-model="body" />
-        <Input v-model="summary" placeholder="Summary" id="summary" label="Summary*" type="text" />
+        <Input
+          v-model="summary"
+          placeholder="Summary"
+          id="summary"
+          label="Summary*"
+          type="text"
+        />
         <Input
           v-model="thumbnail"
           placeholder="Thumbnail"
@@ -26,8 +38,8 @@
 <script>
 import { mapState } from 'vuex';
 
-import Input from '../components/Input';
-import Button from '../components/Button';
+import Input from '../components/shared/Input';
+import Button from '../components/shared/Button';
 
 export default {
   name: 'CreatePost',

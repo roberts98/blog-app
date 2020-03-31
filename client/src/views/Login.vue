@@ -32,9 +32,9 @@
 <script>
 import { mapState } from 'vuex';
 
-import Box from '../components/Box';
-import Input from '../components/Input';
-import Button from '../components/Button';
+import Box from '../components/shared/Box';
+import Input from '../components/shared/Input';
+import Button from '../components/shared/Button';
 import image from '../assets/images/laptop.png';
 
 export default {

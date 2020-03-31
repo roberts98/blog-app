@@ -3,9 +3,7 @@
     <h1 class="post__title">
       {{ post.title }}
     </h1>
-    <div class="post__desc">
-      {{ post.body }}
-    </div>
+    <div class="post__desc" v-html="post.body" />
   </div>
 </template>
 

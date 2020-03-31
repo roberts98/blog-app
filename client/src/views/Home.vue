@@ -1,18 +1,18 @@
 <template>
   <div class="container">
-    <Post :key="post.id" v-for="post in posts" :post="post" />
+    <PostTeaser :key="post.id" v-for="post in posts" :post="post" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
-import Post from '../components/Post';
+import PostTeaser from '../components/PostTeaser';
 
 export default {
   name: 'Home',
   components: {
-    Post
+    PostTeaser
   },
   mounted() {
     this.$store.dispatch('posts/getPosts');
