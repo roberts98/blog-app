@@ -1,7 +1,9 @@
 <template>
   <div class="post">
     <h2 class="post__title">
-      {{ post.title }}
+      <router-link :to="`/post/${post.id}`">
+        {{ post.title }}
+      </router-link>
       <span class="post__author">
         written by
         <span class="post__username">{{ post.user.username }}</span>
@@ -39,8 +41,12 @@ export default {
     font-size: 32px;
     font-weight: 400;
     text-transform: uppercase;
-    color: $col-dark-gray;
     margin-bottom: 8px;
+
+    a {
+      text-decoration: none;
+      color: $col-dark-gray;
+    }
   }
 
   &__author {

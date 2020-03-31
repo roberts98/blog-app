@@ -12,3 +12,7 @@ export function getPosts() {
     method: 'GET'
   });
 }
+
+export function getPost(id) {
+  return axios(`/posts/${id}`, { method: 'GET' });
+}

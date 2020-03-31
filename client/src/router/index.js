@@ -5,6 +5,7 @@ import Register from '../views/Register';
 import Home from '../views/Home';
 import Login from '../views/Login';
 import CreatePost from '../views/CreatePost';
+import Post from '../views/Post';
 
 Vue.use(Router);
 
@@ -17,11 +18,17 @@ const router = new Router({
     },
     {
       path: '/register',
-      component: Register
+      component: Register,
+      meta: {
+        publicRoute: true
+      }
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      meta: {
+        publicRoute: true
+      }
     },
     {
       path: '/add-post',
@@ -29,28 +36,30 @@ const router = new Router({
       meta: {
         privateRoute: true
       }
+    },
+    {
+      path: '/post/:id',
+      component: Post
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.fullPath === '/') {
-    return next();
-  }
-
   if (to.meta.privateRoute) {
     if (localStorage.getItem('token')) {
       return next();
     } else {
       return next('/login');
     }
-  } else {
+  } else if (to.meta.publicRoute) {
     if (localStorage.getItem('token')) {
       return next('/');
     } else {
       return next();
     }
   }
+
+  next();
 });
 
 export default router;
