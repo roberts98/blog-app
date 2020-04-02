@@ -15,6 +15,7 @@ import { User } from 'src/auth/user.entity';
 import { Post as PostEntity } from './post.entity';
 import { CreatePostDto } from './dto/createPost.dto';
 import { Comment } from 'src/comment/comment.entity';
+import { CreateCommentDto } from 'src/comment/dto/createComment.dto';
 
 @Controller('posts')
 export class PostController {
@@ -41,5 +42,15 @@ export class PostController {
   @Get(':postId/comments')
   getComments(@Param('postId') postId: number): Promise<Comment[]> {
     return this.postService.getComments(postId);
+  }
+
+  @UseGuards(AuthGuard())
+  @Post(':postId/comments')
+  addComment(
+    @GetUser() user: User,
+    @Param('postId') postId: number,
+    @Body(ValidationPipe) createCommentDto: CreateCommentDto,
+  ) {
+    return this.postService.addComment(user, postId, createCommentDto);
   }
 }

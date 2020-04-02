@@ -20,3 +20,12 @@ export function getPost(id) {
 export function getComments(postId) {
   return axios(`/posts/${postId}/comments`, { method: 'GET' });
 }
+
+export function addComment(body, postId) {
+  return axios(`/posts/${postId}/comments`, {
+    method: 'POST',
+    data: {
+      body
+    }
+  });
+}

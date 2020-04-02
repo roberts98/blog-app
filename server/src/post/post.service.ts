@@ -7,6 +7,7 @@ import { Post } from './post.entity';
 import { User } from '../auth/user.entity';
 import { Comment } from '../comment/comment.entity';
 import { CommentRepository } from '../comment/comment.repository';
+import { CreateCommentDto } from 'src/comment/dto/createComment.dto';
 
 @Injectable()
 export class PostService {
@@ -29,5 +30,9 @@ export class PostService {
 
   getComments(postId: number) {
     return this.commentRepository.getCommentsForPost(postId);
+  }
+
+  addComment(user: User, postId: number, createCommentDto: CreateCommentDto) {
+    return this.commentRepository.createComment(createCommentDto, user, postId);
   }
 }

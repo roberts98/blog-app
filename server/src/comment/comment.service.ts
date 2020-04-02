@@ -14,11 +14,4 @@ export class CommentService {
     @InjectRepository(Comment) private commentRepository: CommentRepository,
     @InjectRepository(Post) private postRepository: PostRepository,
   ) {}
-
-  async createComment(createCommentDto: CreateCommentDto, user: User) {
-    const { postId } = createCommentDto;
-    const post = await this.postRepository.getPost(postId);
-
-    return this.commentRepository.createComment(createCommentDto, user, post);
-  }
 }

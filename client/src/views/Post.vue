@@ -1,13 +1,14 @@
 <template>
-  <div v-if="post" class="post-page container">
-    <div class="post">
-      <h1 class="post__title">
-        {{ post.title }}
-      </h1>
+  <article v-if="post" class="post">
+    <div class="post__img">
+      <img :src="post.thumbnail" :alt="post.title" />
+    </div>
+    <div class="post__inner container">
+      <h1 class="post__title">{{ post.title }}</h1>
       <div class="post__desc" v-html="post.body" />
     </div>
     <Comments :postId="post.id" />
-  </div>
+  </article>
 </template>
 
 <script>
@@ -34,6 +35,10 @@ export default {
 <style lang="scss" scoped>
 .post {
   margin-top: 60px;
+
+  &__img {
+    text-align: center;
+  }
 
   &__title {
     color: $col-text;

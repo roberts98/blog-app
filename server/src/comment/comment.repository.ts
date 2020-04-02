@@ -3,26 +3,28 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Comment } from './comment.entity';
 import { CreateCommentDto } from './dto/createComment.dto';
 import { User } from '../auth/user.entity';
-import { Post } from 'src/post/post.entity';
 
 @EntityRepository(Comment)
 export class CommentRepository extends Repository<Comment> {
   async createComment(
     createCommentDto: CreateCommentDto,
     user: User,
-    post: Post,
+    postId: number,
   ): Promise<Comment> {
     const { body } = createCommentDto;
 
     const comment = new Comment();
     comment.body = body;
     comment.user = user;
-    comment.post = post;
+    comment.postId = postId;
     comment.createdAt = new Date();
 
     await comment.save();
 
-    delete comment.user;
+    delete comment.user.password;
+    delete comment.user.salt;
+    delete comment.user.posts;
+    delete comment.user.comments;
     delete comment.post;
 
     return comment;
