@@ -1,15 +1,13 @@
 <template>
   <div class="post">
     <h2 class="post__title">
-      <router-link :to="`/post/${post.id}`">
-        {{ post.title }}
-      </router-link>
+      <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
       <span class="post__author">
         written by
         <span class="post__username">{{ post.user.username }}</span>
       </span>
     </h2>
-    <p class="post__date">Published: {{ postDate }}</p>
+    <p class="post__date">Published: {{ post.createdAt | formatDate }}</p>
     <div class="post__thumbnail">
       <img :src="post.thumbnail" :alt="post.title" />
     </div>
@@ -18,16 +16,9 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
   name: 'Post',
-  props: ['post'],
-  computed: {
-    postDate() {
-      return moment(this.$props.post.createdAt).format('YYYY-DD-MM');
-    }
-  }
+  props: ['post']
 };
 </script>
 

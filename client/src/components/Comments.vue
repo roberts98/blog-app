@@ -12,7 +12,12 @@
         <img src="https://www.w3schools.com/howto/img_avatar.png" alt="avatar" />
       </div>
       <div>
-        <span class="comments__author">{{ comment.user.username }}</span>
+        <span class="comments__author">
+          {{ comment.user.username }} on
+          <span
+            class="comments__date"
+          >{{ comment.createdAt | formatDate }}</span>
+        </span>
         <div class="comments__body">{{ comment.body }}</div>
       </div>
     </div>
@@ -21,8 +26,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 import { getComments, addComment } from '../services/posts.service';
 import CommentsForm from './CommentsForm';
 
