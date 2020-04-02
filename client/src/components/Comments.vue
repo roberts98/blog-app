@@ -80,6 +80,9 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    padding-bottom: 20px;
+    width: 80%;
+    border-bottom: 1px solid $col-gray;
   }
 
   &__avatar {
