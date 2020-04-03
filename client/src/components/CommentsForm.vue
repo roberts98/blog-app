@@ -2,7 +2,13 @@
   <div class="comment-form">
     <h3 class="comment-form__title">Add new comment</h3>
     <form @submit.prevent="handleSubmit" class="form">
-      <Input v-model="body" placeholder="Write your comment" id="body" label="Body*" type="text" />
+      <Input
+        v-model="body"
+        placeholder="Write your comment"
+        id="body"
+        label="Body*"
+        type="text"
+      />
       <Button variant="primary" type="submit">Submit</Button>
     </form>
   </div>
