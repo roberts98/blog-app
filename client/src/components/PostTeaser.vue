@@ -36,7 +36,7 @@ export default {
 
     a {
       text-decoration: none;
-      color: $col-dark-gray;
+      color: $col-light-gray;
     }
   }
 

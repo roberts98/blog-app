@@ -5,7 +5,8 @@
     </h2>
     <div v-if="token" class="header__right">
       <div class="header__username">
-        Logged in as <router-link to="/add-post">{{ username }}</router-link>
+        Logged in as
+        <router-link to="/profile">{{ username }}</router-link>
       </div>
       <Button :onClick="logout" variant="white">Logout</Button>
     </div>

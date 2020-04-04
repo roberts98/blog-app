@@ -41,6 +41,7 @@ export class UserRepository extends Repository<User> {
       delete user.password;
       delete user.salt;
       delete user.posts;
+      delete user.comments;
 
       return user;
     }

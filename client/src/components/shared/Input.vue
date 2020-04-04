@@ -32,7 +32,7 @@ label {
   min-width: 125px;
   font-size: 12px;
   font-weight: bold;
-  color: $col-dark-gray;
+  color: $col-light-gray;
   text-transform: uppercase;
 }
 

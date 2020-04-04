@@ -6,6 +6,7 @@ import Home from '../views/Home';
 import Login from '../views/Login';
 import CreatePost from '../views/CreatePost';
 import Post from '../views/Post';
+import Profile from '../views/Profile';
 
 Vue.use(Router);
 
@@ -40,6 +41,13 @@ const router = new Router({
     {
       path: '/post/:id',
       component: Post
+    },
+    {
+      path: '/profile',
+      component: Profile,
+      meta: {
+        privateRoute: true
+      }
     }
   ]
 });

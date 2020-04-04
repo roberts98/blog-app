@@ -14,8 +14,8 @@ import { GetUser } from '../user/get-user.decorator';
 import { User } from 'src/user/user.entity';
 import { Post as PostEntity } from './post.entity';
 import { CreatePostDto } from './dto/createPost.dto';
-import { Comment } from 'src/comment/comment.entity';
-import { CreateCommentDto } from 'src/comment/dto/createComment.dto';
+import { Comment } from '../comment/comment.entity';
+import { CreateCommentDto } from '../comment/dto/createComment.dto';
 
 @Controller('posts')
 export class PostController {
