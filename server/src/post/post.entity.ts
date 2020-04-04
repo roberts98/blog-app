@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { User } from '../auth/user.entity';
+import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
 
 @Entity()

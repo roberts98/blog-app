@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from './dto/createPost.dto';
 import { PostRepository } from './post.repository';
 import { Post } from './post.entity';
-import { User } from '../auth/user.entity';
+import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
 import { CommentRepository } from '../comment/comment.repository';
 import { CreateCommentDto } from 'src/comment/dto/createComment.dto';

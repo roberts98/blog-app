@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 
 import { User } from './user.entity';
-import { AuthCredentialsDto } from './dto/authCredentials.dto';
+import { AuthCredentialsDto } from '../auth/dto/authCredentials.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {

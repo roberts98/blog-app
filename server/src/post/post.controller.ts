@@ -10,8 +10,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 
 import { PostService } from './post.service';
-import { GetUser } from '../auth/get-user.decorator';
-import { User } from 'src/auth/user.entity';
+import { GetUser } from '../user/get-user.decorator';
+import { User } from 'src/user/user.entity';
 import { Post as PostEntity } from './post.entity';
 import { CreatePostDto } from './dto/createPost.dto';
 import { Comment } from 'src/comment/comment.entity';

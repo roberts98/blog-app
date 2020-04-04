@@ -2,7 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { Post } from './post.entity';
 import { CreatePostDto } from './dto/createPost.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/user/user.entity';
 
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {

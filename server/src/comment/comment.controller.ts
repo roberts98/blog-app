@@ -8,8 +8,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 
 import { CommentService } from './comment.service';
-import { GetUser } from '../auth/get-user.decorator';
-import { User } from '../auth/user.entity';
+import { GetUser } from '../user/get-user.decorator';
+import { User } from '../user/user.entity';
 import { CreateCommentDto } from './dto/createComment.dto';
 import { Comment } from './comment.entity';
 
