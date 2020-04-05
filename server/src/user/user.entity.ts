@@ -17,8 +17,11 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ readonly: true })
   username: string;
+
+  @Column({ default: '' })
+  bio: string;
 
   @Column()
   password: string;
