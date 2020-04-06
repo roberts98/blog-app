@@ -1,5 +1,5 @@
 <template>
-  <div class="container user">
+  <div v-if="user" class="container user">
     <div class="user__content">
       <section class="user__section user__info">
         <h2 class="user__header">Basic info</h2>
@@ -14,7 +14,7 @@
         >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
       </section>
       <div class="user__twoCol">
-        <section class="user__section user__posts">
+        <section v-if="user.posts.length > 0" class="user__section user__posts">
           <h2 class="user__header">Last Posts</h2>
           <ul class="user__list listReset">
             <li class="user__item" :key="post.id" v-for="post in user.posts">
@@ -25,7 +25,7 @@
             </li>
           </ul>
         </section>
-        <section class="user__section user__comments">
+        <section v-if="user.comments.length > 0" class="user__section user__comments">
           <h2 class="user__header">Last comments</h2>
           <ul class="user__list listReset">
             <li class="user__item" :key="comment.id" v-for="comment in user.comments">
