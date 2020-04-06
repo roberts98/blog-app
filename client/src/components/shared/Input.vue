@@ -46,7 +46,7 @@ input {
   width: 100%;
 
   &.error {
-    border-bottom: 1px solid $col-red;
+    border: 2px solid $col-red;
   }
 }
 </style>

@@ -9,9 +9,7 @@
           </div>
           <h2 class="user__name">{{ user.username }}</h2>
         </div>
-        <div
-          class="user__bio"
-        >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
+        <div class="user__bio">{{ user.bio }}</div>
       </section>
       <div class="user__twoCol">
         <section v-if="user.posts.length > 0" class="user__section user__posts">
@@ -57,7 +55,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .user {
   margin-top: 60px;
 

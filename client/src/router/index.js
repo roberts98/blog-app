@@ -7,6 +7,7 @@ import Login from '../views/Login';
 import CreatePost from '../views/CreatePost';
 import Post from '../views/Post';
 import Profile from '../views/Profile';
+import ProfileEdit from '../views/ProfileEdit';
 
 Vue.use(Router);
 
@@ -45,6 +46,13 @@ const router = new Router({
     {
       path: '/profile',
       component: Profile,
+      meta: {
+        privateRoute: true
+      }
+    },
+    {
+      path: '/profile/edit',
+      component: ProfileEdit,
       meta: {
         privateRoute: true
       }

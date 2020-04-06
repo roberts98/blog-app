@@ -1,10 +1,17 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/updateUserDto';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
+  constructor(private userRepository: UserRepository) {}
+
   getUser(user: User): User {
     delete user.password;
     delete user.salt;
@@ -16,9 +23,14 @@ export class UserService {
 
   async updateUser(user: User, updateUserDto: UpdateUserDto): Promise<User> {
     try {
-      const { password, bio } = updateUserDto;
+      const { password, bio, oldPassword } = updateUserDto;
+      const isPasswordValid = await user.validatePassword(oldPassword);
+
       if (password) {
-        user.password = password;
+        user.password = await this.userRepository.hashPassword(
+          password,
+          user.salt,
+        );
       }
 
       if (bio) {

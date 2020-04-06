@@ -5,3 +5,10 @@ export function getUser() {
     method: 'GET'
   });
 }
+
+export function updateUserInfo(data) {
+  return axios('/user', {
+    method: 'PATCH',
+    data
+  });
+}
