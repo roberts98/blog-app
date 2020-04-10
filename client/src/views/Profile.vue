@@ -5,7 +5,10 @@
         <h2 class="user__header">Basic info</h2>
         <div class="user__info__content">
           <div class="user__avatar">
-            <img src="https://www.w3schools.com/howto/img_avatar.png" alt="avatar" />
+            <img
+              src="https://www.w3schools.com/howto/img_avatar.png"
+              alt="avatar"
+            />
           </div>
           <h2 class="user__name">{{ user.username }}</h2>
         </div>
@@ -19,18 +22,32 @@
               <router-link class="user__itemTitle" :to="`/post/${post.id}`">
                 <p>{{ post.title }}</p>
               </router-link>
-              <span class="user__itemDate">{{ post.createdAt | formatDate }}</span>
+              <span class="user__itemDate">{{
+                post.createdAt | formatDate
+              }}</span>
             </li>
           </ul>
         </section>
-        <section v-if="user.comments.length > 0" class="user__section user__comments">
+        <section
+          v-if="user.comments.length > 0"
+          class="user__section user__comments"
+        >
           <h2 class="user__header">Last comments</h2>
           <ul class="user__list listReset">
-            <li class="user__item" :key="comment.id" v-for="comment in user.comments">
-              <router-link class="user__itemTitle" :to="`/post/${comment.postId}`">
+            <li
+              class="user__item"
+              :key="comment.id"
+              v-for="comment in user.comments"
+            >
+              <router-link
+                class="user__itemTitle"
+                :to="`/post/${comment.postId}`"
+              >
                 <p>{{ comment.body }}</p>
               </router-link>
-              <span class="user__itemDate">{{ comment.createdAt | formatDate }}</span>
+              <span class="user__itemDate">{{
+                comment.createdAt | formatDate
+              }}</span>
             </li>
           </ul>
         </section>
