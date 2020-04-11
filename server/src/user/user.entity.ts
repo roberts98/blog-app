@@ -23,6 +23,9 @@ export class User extends BaseEntity {
   @Column({ default: '' })
   bio: string;
 
+  @Column({ default: 'default.png' })
+  avatar: string;
+
   @Column()
   password: string;
 

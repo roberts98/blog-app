@@ -29,6 +29,14 @@ export class UserRepository extends Repository<User> {
     }
   }
 
+  async updateAvatar(user: User, avatarPath: string): Promise<string> {
+    user.avatar = avatarPath;
+
+    await user.save();
+
+    return user.avatar;
+  }
+
   async validateUserPassword(
     authCredentialsDto: AuthCredentialsDto,
   ): Promise<User> {

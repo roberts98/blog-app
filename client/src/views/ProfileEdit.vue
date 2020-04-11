@@ -34,8 +34,10 @@
         label="Biography*"
         type="text"
       />
-      <Button type="submit" variant="primary">Submit</Button>
+      <Button class="user__btn" type="submit" variant="primary">Submit</Button>
     </form>
+    <h2 class="user__header">Upload avatar</h2>
+    <Avatar />
   </div>
 </template>
 
@@ -43,12 +45,14 @@
 import { updateUserInfo } from '../services/user.service';
 import Input from '../components/shared/Input';
 import Button from '../components/shared/Button';
+import Avatar from '../components/Avatar';
 
 export default {
   name: 'ProfileEdit',
   components: {
     Input,
-    Button
+    Button,
+    Avatar
   },
   data() {
     return {
@@ -86,5 +90,9 @@ export default {
 <style>
 .user__header--small {
   font-size: 24px;
+}
+
+.user__btn {
+  margin-bottom: 32px;
 }
 </style>

@@ -43,4 +43,8 @@ export class UserService {
       throw new ConflictException();
     }
   }
+
+  async updateAvatar(user: User, avatarPath: string): Promise<string> {
+    return this.userRepository.updateAvatar(user, avatarPath);
+  }
 }

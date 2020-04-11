@@ -17,8 +17,9 @@ import { UserModule } from './user/user.module';
     CommentModule,
     UserModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'client', 'dist')
-    })
+      rootPath: join(__dirname, '..', '..', 'client', 'dist'),
+      exclude: ['/api*', '/files*'],
+    }),
   ],
 })
 export class AppModule {}

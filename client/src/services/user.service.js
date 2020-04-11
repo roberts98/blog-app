@@ -12,3 +12,19 @@ export function updateUserInfo(data) {
     data
   });
 }
+
+export function updateAvatar(avatar) {
+  const formData = new FormData();
+  formData.append('avatar', avatar);
+
+  return axios('/api/user/avatar', {
+    method: 'PATCH',
+    data: formData
+  });
+}
+
+export function getAvatar() {
+  return axios('/api/user/avatar', {
+    method: 'GET'
+  });
+}
