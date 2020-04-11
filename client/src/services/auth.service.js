@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function register(username, password) {
-  return axios('/auth', {
+  return axios('/api/auth', {
     method: 'POST',
     data: {
       username,
@@ -11,7 +11,7 @@ export function register(username, password) {
 }
 
 export function login(username, password) {
-  return axios('/auth/login', {
+  return axios('/api/auth/login', {
     method: 'POST',
     data: {
       username,

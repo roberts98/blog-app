@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export function getUser() {
-  return axios('/user', {
+  return axios('/api/user', {
     method: 'GET'
   });
 }
 
 export function updateUserInfo(data) {
-  return axios('/user', {
+  return axios('/api/user', {
     method: 'PATCH',
     data
   });
