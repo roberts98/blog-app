@@ -15,7 +15,7 @@ export default {
     PostTeaser
   },
   mounted() {
-    this.$store.dispatch('posts/getPosts');
+    this.$store.dispatch('getPosts');
   },
   computed: mapState({
     posts: state => state.posts.items

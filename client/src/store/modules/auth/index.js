@@ -6,7 +6,8 @@ import {
   AUTH_REQUEST,
   AUTH_SUCCESS,
   AUTH_FAILURE,
-  UPDATE_USER_DATA
+  UPDATE_USER_DATA,
+  UPDATE_AVATAR
 } from './types';
 
 const state = {
@@ -18,7 +19,8 @@ const state = {
 
 const getters = {
   isLoading: ({ isLoading }) => isLoading,
-  token: ({ token }) => token
+  token: ({ token }) => token,
+  avatar: ({ user }) => user.avatar
 };
 
 const actions = {
@@ -39,6 +41,12 @@ const actions = {
     } catch (error) {
       commit(AUTH_FAILURE, error);
     }
+  },
+
+  updateAvatar({ commit }, avatar) {
+    commit(UPDATE_AVATAR, {
+      avatar
+    });
   },
 
   fetchUser({ commit }) {
@@ -76,11 +84,17 @@ const mutations = {
   [UPDATE_USER_DATA](state, { accesToken, user }) {
     state.token = accesToken;
     state.user = user;
+  },
+
+  [UPDATE_AVATAR](state, { avatar }) {
+    state.user = {
+      ...state.user,
+      avatar
+    };
   }
 };
 
 export default {
-  namespaced: true,
   state,
   getters,
   actions,

@@ -24,7 +24,13 @@
   "homepage": "https://github.com/roberts98/blog-app#readme",
   "devDependencies": {
     "concurrently": "^5.1.0",
+    "husky": "^4.2.5",
     "prettier": "^1.19.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier:client"
+    }
+  }
 }

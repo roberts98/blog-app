@@ -7,7 +7,7 @@
 
 <script>
 import store from './store';
-import Header from './components/shared/Header';
+import Header from './components/header/Header';
 
 export default {
   name: 'App',
@@ -15,7 +15,7 @@ export default {
     Header
   },
   mounted() {
-    store.dispatch('auth/fetchUser');
+    store.dispatch('fetchUser');
   }
 };
 </script>

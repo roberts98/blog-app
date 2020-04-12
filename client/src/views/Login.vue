@@ -60,7 +60,7 @@ export default {
   }),
   methods: {
     async handleSubmit() {
-      this.$store.dispatch('auth/login', {
+      this.$store.dispatch('login', {
         username: this.username,
         password: this.password
       });

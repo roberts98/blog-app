@@ -65,7 +65,7 @@ export default {
         thumbnail
       };
 
-      this.$store.dispatch('posts/addPost', post);
+      this.$store.dispatch('addPost', post);
     }
   }
 };

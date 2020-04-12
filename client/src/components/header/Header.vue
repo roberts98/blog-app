@@ -4,10 +4,7 @@
       <router-link to="/">Blog app</router-link>
     </h2>
     <div v-if="token" class="header__right">
-      <div class="header__username">
-        Logged in as
-        <router-link to="/profile">{{ username }}</router-link>
-      </div>
+      <Avatar />
       <Button :onClick="logout" variant="white">Logout</Button>
     </div>
     <div v-else class="header__right">
@@ -24,12 +21,14 @@
 <script>
 import { mapState } from 'vuex';
 
-import Button from './Button';
+import Button from '../shared/Button';
+import Avatar from './Avatar';
 
 export default {
   name: 'Header',
   components: {
-    Button
+    Button,
+    Avatar
   },
   computed: mapState({
     token: state => state.auth.token,
@@ -37,7 +36,7 @@ export default {
   }),
   methods: {
     logout() {
-      this.$store.dispatch('auth/logout');
+      this.$store.dispatch('logout');
     }
   }
 };
