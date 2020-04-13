@@ -14,7 +14,8 @@ const state = {
   token: null,
   user: null,
   isLoading: false,
-  error: ''
+  messages: [],
+  messageType: 'default'
 };
 
 const getters = {
@@ -39,7 +40,20 @@ const actions = {
       commit(AUTH_SUCCESS, { accesToken, user });
       router.push('/');
     } catch (error) {
-      commit(AUTH_FAILURE, error);
+      if (error.response.status === 401) {
+        commit(AUTH_FAILURE, [error.response.data.message]);
+      }
+
+      if (error.response.status === 400) {
+        const errors = [];
+        error.response.data.message.map(error => {
+          Object.keys(error.constraints).forEach(key => {
+            const errorMessage = error.constraints[key];
+            errors.push(errorMessage);
+          });
+        });
+        commit(AUTH_FAILURE, errors);
+      }
     }
   },
 
@@ -74,11 +88,14 @@ const mutations = {
     state.isLoading = false;
     state.token = data.accesToken;
     state.user = data.user;
+    state.messages = ['Logged in successfully!'];
+    state.messageType = 'success';
   },
 
-  [AUTH_FAILURE](state, error) {
+  [AUTH_FAILURE](state, errors) {
     state.isLoading = false;
-    state.error = error;
+    state.messages = [...errors];
+    state.messageType = 'error';
   },
 
   [UPDATE_USER_DATA](state, { accesToken, user }) {

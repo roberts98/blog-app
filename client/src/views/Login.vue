@@ -1,9 +1,6 @@
 <template>
   <div class="login">
     <Box title="Sign in" :img="image">
-      <div v-if="error" class="error">
-        <p>{{ error }}</p>
-      </div>
       <form @submit.prevent="handleSubmit">
         <Input
           v-model="username"
@@ -11,7 +8,6 @@
           id="username"
           label="Username*"
           type="text"
-          :className="{ error: usernameError }"
         />
         <Input
           v-model="password"
@@ -19,7 +15,6 @@
           id="password"
           label="Password*"
           type="password"
-          :className="{ error: passwordError }"
         />
         <Button type="submit" :disabled="isLoading" variant="primary"
           >Sign in</Button
@@ -49,10 +44,7 @@ export default {
       image,
       username: '',
       password: '',
-      rePassword: '',
-      error: '',
-      passwordError: '',
-      usernameError: ''
+      rePassword: ''
     };
   },
   computed: mapState({
@@ -60,10 +52,18 @@ export default {
   }),
   methods: {
     async handleSubmit() {
-      this.$store.dispatch('login', {
-        username: this.username,
-        password: this.password
-      });
+      this.$store
+        .dispatch('login', {
+          username: this.username,
+          password: this.password
+        })
+        .then(() => {
+          this.$store.state.auth.messages.map(error => {
+            this.$toasted.show(error, {
+              type: this.$store.state.auth.messageType
+            });
+          });
+        });
     }
   }
 };
