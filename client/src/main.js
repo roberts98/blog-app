@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Axios from 'axios';
 import wysiwyg from 'vue-wysiwyg';
 import moment from 'moment';
+import Toasted from 'vue-toasted';
 import 'normalize.css';
 
 import App from './App.vue';
@@ -26,6 +27,10 @@ Vue.filter('formatDate', function(value) {
 });
 
 Vue.use(wysiwyg, {});
+Vue.use(Toasted, {
+  position: 'bottom-right',
+  duration: 3000
+});
 
 new Vue({
   router,

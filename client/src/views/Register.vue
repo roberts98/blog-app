@@ -1,11 +1,6 @@
 <template>
   <div class="register">
     <Box title="Register" :img="image">
-      <div v-if="error || passwordError || usernameError" class="error">
-        <p>{{ error }}</p>
-        <p>{{ passwordError }}</p>
-        <p>{{ usernameError }}</p>
-      </div>
       <form @submit.prevent="handleSubmit">
         <Input
           v-model="username"
@@ -57,23 +52,49 @@ export default {
       username: '',
       password: '',
       rePassword: '',
-      error: '',
-      passwordError: '',
-      usernameError: ''
+      passwordError: false,
+      usernameError: false
     };
   },
   methods: {
     async handleSubmit() {
       if (this.password !== this.rePassword) {
-        return (this.passwordError = 'Passwords must be the same');
+        this.passwordError = true;
+        return this.$toasted.show(`Passwords don't match`, {
+          type: 'error'
+        });
       }
 
       try {
         await register(this.username, this.password);
         this.username = this.passowrd = this.rePassword = '';
+        this.$toasted.show('Registered succesfully!', {
+          type: 'success'
+        });
         this.$router.push('/login');
       } catch (error) {
-        this.error = error;
+        if (error.response.status === 500) {
+          return this.$toasted.show(error.response.data.error, {
+            type: 'error'
+          });
+        }
+
+        const message = error.response.data.message;
+        if (error.response.status === 409) {
+          this.usernameError = true;
+          return this.$toasted.show(message, {
+            type: 'error'
+          });
+        }
+        // If validation fails due to validation pipe
+        message.forEach(error => {
+          Object.keys(error.constraints).forEach(key => {
+            const errorMessage = error.constraints[key];
+            this.$toasted.show(errorMessage, {
+              type: 'error'
+            });
+          });
+        });
       }
     }
   }

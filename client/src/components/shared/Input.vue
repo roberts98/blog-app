@@ -37,7 +37,7 @@ label {
 }
 
 input {
-  border: 1px solid $col-gray;
+  border: 2px solid $col-gray;
   border-radius: 5px;
   outline: none;
   background: transparent;
@@ -46,7 +46,7 @@ input {
   width: 100%;
 
   &.error {
-    border: 2px solid $col-red;
+    border-color: $col-red;
   }
 }
 </style>
