@@ -66,22 +66,62 @@ export default {
   methods: {
     async handleSubmit(e) {
       if (this.password !== this.rePassword) {
-        this.errors.push('The password must be the same as re-password');
-        this.$refs['newPassword'].$el
-          .querySelector('input')
-          .classList.add('error');
-        this.$refs['newRePassword'].$el
-          .querySelector('input')
-          .classList.add('error');
+        return this.$toasted.show(`Passwords don't match`, {
+          type: 'error'
+        });
+      }
+
+      if (this.password === this.oldPassword) {
+        return this.$toasted.show(
+          `Old password cannot be the same as new password!`,
+          {
+            type: 'error'
+          }
+        );
       }
 
       const data = {
-        password: this.password,
-        oldPassword: this.oldPassword,
-        bio: this.bio
+        oldPassword: this.oldPassword
       };
 
-      const response = await updateUserInfo(data);
+      if (this.password) data.password = this.password;
+      if (this.bio) data.bio = this.bio;
+
+      try {
+        const response = await updateUserInfo(data);
+        this.$toasted.show('Profile succesfully updated!', {
+          type: 'success'
+        });
+        this.bio = this.oldPassword = this.password = this.rePassword = '';
+      } catch (error) {
+        if (error.response.status === 400) {
+          error.response.data.message.forEach(message => {
+            Object.keys(message.constraints).forEach(key => {
+              this.$toasted.show(message.constraints[key], {
+                type: 'error'
+              });
+            });
+          });
+        }
+
+        if (error.response.status === 401) {
+          this.$toasted.show(error.response.data.message, {
+            type: 'error'
+          });
+        }
+
+        if (error.response.status === 422) {
+          this.$toasted.show(error.response.data.message, {
+            type: 'error'
+          });
+        }
+
+        if (error.response.status === 500) {
+          this.$toasted.show(error.response.data.error, {
+            type: 'error'
+          });
+        }
+      }
     }
   }
 };

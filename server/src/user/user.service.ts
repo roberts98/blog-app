@@ -2,6 +2,8 @@ import {
   Injectable,
   ConflictException,
   UnauthorizedException,
+  InternalServerErrorException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 
 import { User } from './user.entity';
@@ -26,6 +28,14 @@ export class UserService {
       const { password, bio, oldPassword } = updateUserDto;
       const isPasswordValid = await user.validatePassword(oldPassword);
 
+      if (!isPasswordValid) {
+        throw new UnauthorizedException();
+      }
+
+      if (password === oldPassword) {
+        throw new UnprocessableEntityException();
+      }
+
       if (password) {
         user.password = await this.userRepository.hashPassword(
           password,
@@ -38,9 +48,21 @@ export class UserService {
       }
 
       await user.save();
+
+      delete user.password;
+      delete user.salt;
+
       return user;
     } catch (error) {
-      throw new ConflictException();
+      if (error.response.statusCode === 401) {
+        throw new UnauthorizedException('Password is not valid!');
+      } else if (error.response.statusCode === 422) {
+        throw new UnprocessableEntityException(
+          'Old password cannot be the same as new password!',
+        );
+      } else {
+        throw new InternalServerErrorException();
+      }
     }
   }
 
