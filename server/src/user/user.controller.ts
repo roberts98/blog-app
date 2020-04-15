@@ -9,6 +9,8 @@ import {
   UploadedFile,
   Res,
   BadRequestException,
+  UnauthorizedException,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { diskStorage } from 'multer';
@@ -65,5 +67,14 @@ export class UserController {
   @Get('avatar')
   getAvatar(@GetUser() user) {
     return user.avatar;
+  }
+
+  @Get('authorize')
+  validateToken(@GetUser() user, @Res() res: Response) {
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    res.status(HttpStatus.OK).send();
   }
 }

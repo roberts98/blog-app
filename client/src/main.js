@@ -9,6 +9,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './assets/styles/global.scss';
+import { authorize } from './services/user.service';
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
@@ -32,8 +33,21 @@ Vue.use(Toasted, {
   duration: 3000
 });
 
+Vue.$mount;
+
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  async mounted() {
+    try {
+      if (token) {
+        await authorize();
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        this.$store.dispatch('logout');
+      }
+    }
+  }
 }).$mount('#app');

@@ -28,3 +28,9 @@ export function getAvatar() {
     method: 'GET'
   });
 }
+
+export function authorize() {
+  return axios('/api/user/authorize', {
+    method: 'GET'
+  });
+}
