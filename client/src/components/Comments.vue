@@ -17,9 +17,9 @@
       <div>
         <span class="comments__author">
           {{ comment.user.username }} on
-          <span class="comments__date">{{
-            comment.createdAt | formatDate
-          }}</span>
+          <span class="comments__date">
+            {{ comment.createdAt | formatDate }}
+          </span>
         </span>
         <div class="comments__body">{{ comment.body }}</div>
       </div>
@@ -44,13 +44,40 @@ export default {
     };
   },
   async mounted() {
-    const response = await getComments(this.$props.postId);
-    this.comments = response.data;
+    try {
+      const response = await getComments(this.$props.postId);
+      this.comments = response.data;
+    } catch (error) {
+      this.$toasted.show('Failed to fetch comments!', {
+        type: 'error'
+      });
+    }
   },
   methods: {
     async addComment(body) {
-      const res = await addComment(body, this.$props.postId);
-      this.comments.push(res.data);
+      try {
+        const res = await addComment(body, this.$props.postId);
+        this.comments.push(res.data);
+        this.$toasted.show('Comment added', {
+          type: 'success'
+        });
+      } catch (error) {
+        if (error.response.status === 400) {
+          error.response.data.message.forEach(message => {
+            Object.keys(message.constraints).forEach(key => {
+              this.$toasted.show(message.constraints[key], {
+                type: 'error'
+              });
+            });
+          });
+        }
+
+        if (error.response.status === 500) {
+          this.$toasted.show(error.response.data.error, {
+            type: 'error'
+          });
+        }
+      }
     }
   }
 };

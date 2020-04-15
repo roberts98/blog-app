@@ -32,6 +32,14 @@ export default {
   },
   methods: {
     handleSubmit() {
+      if (this.body.length < 10) {
+        return this.$toasted.show(
+          'Comment must be at least 10 characters long',
+          {
+            type: 'error'
+          }
+        );
+      }
       this.$props.onSubmit(this.body);
       this.body = '';
     }
@@ -42,6 +50,7 @@ export default {
 <style lang="scss" scoped>
 .comment-form {
   margin-top: 40px;
+
   &__title {
     font-size: 20px;
     color: $col-text;

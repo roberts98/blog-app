@@ -1,4 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
+import { InternalServerErrorException } from '@nestjs/common';
 
 import { Comment } from './comment.entity';
 import { CreateCommentDto } from './dto/createComment.dto';
@@ -11,23 +12,27 @@ export class CommentRepository extends Repository<Comment> {
     user: User,
     postId: number,
   ): Promise<Comment> {
-    const { body } = createCommentDto;
+    try {
+      const { body } = createCommentDto;
 
-    const comment = new Comment();
-    comment.body = body;
-    comment.user = user;
-    comment.postId = postId;
-    comment.createdAt = new Date();
+      const comment = new Comment();
+      comment.body = body;
+      comment.user = user;
+      comment.postId = postId;
+      comment.createdAt = new Date();
 
-    await comment.save();
+      await comment.save();
 
-    delete comment.user.password;
-    delete comment.user.salt;
-    delete comment.user.posts;
-    delete comment.user.comments;
-    delete comment.post;
+      delete comment.user.password;
+      delete comment.user.salt;
+      delete comment.user.posts;
+      delete comment.user.comments;
+      delete comment.post;
 
-    return comment;
+      return comment;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async getCommentsForPost(postId: number): Promise<Comment[]> {
