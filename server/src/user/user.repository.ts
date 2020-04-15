@@ -30,11 +30,13 @@ export class UserRepository extends Repository<User> {
   }
 
   async updateAvatar(user: User, avatarPath: string): Promise<string> {
-    user.avatar = avatarPath;
-
-    await user.save();
-
-    return user.avatar;
+    try {
+      user.avatar = avatarPath;
+      await user.save();
+      return user.avatar;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async validateUserPassword(

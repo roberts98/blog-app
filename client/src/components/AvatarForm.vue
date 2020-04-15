@@ -12,15 +12,51 @@
 </template>
 
 <script>
-import { updateAvatar, getAvatar } from '../services/user.service';
+import { updateAvatar, getAvatar } from '@/services/user.service';
+import { allowedTypes } from '@/utils/avatar';
 
 export default {
   name: 'AvatarForm',
   methods: {
     async handleChange(e) {
-      const response = await updateAvatar(e.target.files[0]);
-      this.$store.dispatch('updateAvatar', response.data);
-      this.$refs.input.value = '';
+      try {
+        const file = e.target.files[0];
+
+        if (allowedTypes.indexOf(file.type) === -1) {
+          return this.$toasted.show(
+            'Allowed files extensions are: jpg, png, gif',
+            {
+              type: 'error'
+            }
+          );
+        }
+
+        if (file.size > 102400) {
+          return this.$toasted.show('Maximum avatar size is 100kB', {
+            type: 'error'
+          });
+        }
+
+        const response = await updateAvatar(file);
+        this.$store.dispatch('updateAvatar', response.data);
+        this.$refs.input.value = '';
+        window.scrollTo(0, 0);
+        this.$toasted.show('Avatar successfully updated!', {
+          type: 'success'
+        });
+      } catch (error) {
+        if (error.response.status === 400) {
+          this.$toasted.show(error.response.data.message, {
+            type: 'error'
+          });
+        }
+
+        if (error.response.status === 500) {
+          this.$toasted.show(error.response.data.error, {
+            type: 'error'
+          });
+        }
+      }
     }
   }
 };

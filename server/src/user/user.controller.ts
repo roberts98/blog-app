@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  BadRequestException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { diskStorage } from 'multer';
@@ -18,7 +19,7 @@ import { UserService } from './user.service';
 import { GetUser } from './get-user.decorator';
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/updateUserDto';
-import { editFileName } from '../utils/avatar';
+import { editFileName, allowedTypes } from '../utils/avatar';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('user')
@@ -47,7 +48,17 @@ export class UserController {
       }),
     }),
   )
-  uploadAvatar(@GetUser() user: User, @UploadedFile() avatar) {
+  uploadAvatar(@GetUser() user: User, @UploadedFile() avatar: any) {
+    if (allowedTypes.indexOf(avatar.mimetype) === -1) {
+      throw new BadRequestException(
+        'Allowed files extensions are: jpg, png, gif',
+      );
+    }
+
+    if (avatar.size > 102400) {
+      throw new BadRequestException('Maximum avatar size is 100kB');
+    }
+
     return this.userService.updateAvatar(user, avatar.filename);
   }
 
