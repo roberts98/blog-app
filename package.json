@@ -9,7 +9,8 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
     "start:prod": "node server/dist/main.js",
     "postinstall": "cd server && npm install && npm run build && cd ../client && npm install && npm run build",
-    "prettier:client": "prettier --write client/src/**/*.{js,vue}"
+    "prettier:client": "prettier --write client/src/**/*.{js,vue}",
+    "prettier:server": "cd server && npm run format"
   },
   "repository": {
     "type": "git",

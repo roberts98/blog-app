@@ -7,10 +7,7 @@ import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UserRepository]),
-    MulterModule.register({ dest: './files' }),
-  ],
+  imports: [TypeOrmModule.forFeature([UserRepository])],
   controllers: [UserController],
   providers: [UserService],
 })

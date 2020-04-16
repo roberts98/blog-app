@@ -13,15 +13,15 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
+import * as aws from 'aws-sdk';
 
 import { UserService } from './user.service';
 import { GetUser } from './get-user.decorator';
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/updateUserDto';
-import { editFileName, allowedTypes } from '../utils/avatar';
+import { allowedTypes } from '../utils/avatar';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('user')
@@ -42,15 +42,12 @@ export class UserController {
   }
 
   @Patch('avatar')
-  @UseInterceptors(
-    FileInterceptor('avatar', {
-      storage: diskStorage({
-        destination: './files',
-        filename: editFileName,
-      }),
-    }),
-  )
-  uploadAvatar(@GetUser() user: User, @UploadedFile() avatar: any) {
+  @UseInterceptors(FileInterceptor('avatar'))
+  uploadAvatar(
+    @GetUser() user: User,
+    @UploadedFile() avatar: any,
+    @Res() res: Response,
+  ) {
     if (allowedTypes.indexOf(avatar.mimetype) === -1) {
       throw new BadRequestException(
         'Allowed files extensions are: jpg, png, gif',
@@ -61,7 +58,7 @@ export class UserController {
       throw new BadRequestException('Maximum avatar size is 100kB');
     }
 
-    return this.userService.updateAvatar(user, avatar.filename);
+    this.userService.updateAvatar(user, avatar, (url: string) => res.send(url));
   }
 
   @Get('avatar')
