@@ -1,14 +1,16 @@
 import {
   Injectable,
-  ConflictException,
   UnauthorizedException,
   InternalServerErrorException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import * as AWS from 'aws-sdk';
+import { v1 as uuid } from 'uuid';
 
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/updateUserDto';
 import { UserRepository } from './user.repository';
+import { awsConfig } from 'src/config/awsConfig';
 
 @Injectable()
 export class UserService {
@@ -66,7 +68,33 @@ export class UserService {
     }
   }
 
-  async updateAvatar(user: User, avatarPath: string): Promise<string> {
-    return this.userRepository.updateAvatar(user, avatarPath);
+  async updateAvatar(
+    user: User,
+    avatar: any,
+    cb: (url: string) => void,
+  ): Promise<any> {
+    const s3 = new AWS.S3(awsConfig);
+    const S3_BUCKET = process.env.S3_BUCKET || 'vue-nest-blog';
+    const fileName = avatar.originalname + uuid();
+
+    const fileType = avatar.mimetype;
+    const s3Params = {
+      Bucket: S3_BUCKET,
+      Key: fileName,
+      Body: avatar.buffer,
+      Expires: null,
+      ContentType: fileType,
+      ACL: 'public-read',
+    };
+
+    s3.upload(s3Params, (err: any) => {
+      if (err) {
+        throw new InternalServerErrorException();
+      }
+
+      const url = `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`;
+      this.userRepository.updateAvatar(user, url);
+      cb(url);
+    });
   }
 }

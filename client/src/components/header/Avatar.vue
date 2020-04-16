@@ -1,7 +1,7 @@
 <template>
   <div class="avatar" v-if="avatar">
     <router-link to="/profile">
-      <img class="avatar__img" :src="`/files/${avatar}`" alt="avatar" />
+      <img class="avatar__img" :src="avatar" alt="avatar" />
     </router-link>
   </div>
 </template>

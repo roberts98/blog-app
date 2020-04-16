@@ -5,7 +5,7 @@
         <h2 class="user__header">Basic info</h2>
         <div class="user__info__content">
           <div class="user__avatar">
-            <img :src="`/files/${user.avatar}`" alt="avatar" />
+            <img :src="user.avatar" alt="avatar" />
           </div>
           <h2 class="user__name">{{ user.username }}</h2>
         </div>
@@ -19,9 +19,9 @@
               <router-link class="user__itemTitle" :to="`/post/${post.id}`">
                 <p>{{ post.title }}</p>
               </router-link>
-              <span class="user__itemDate">
-                {{ post.createdAt | formatDate }}
-              </span>
+              <span class="user__itemDate">{{
+                post.createdAt | formatDate
+              }}</span>
             </li>
           </ul>
         </section>
@@ -42,9 +42,9 @@
               >
                 <p>{{ comment.body }}</p>
               </router-link>
-              <span class="user__itemDate">
-                {{ comment.createdAt | formatDate }}
-              </span>
+              <span class="user__itemDate">{{
+                comment.createdAt | formatDate
+              }}</span>
             </li>
           </ul>
         </section>
