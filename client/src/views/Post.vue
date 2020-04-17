@@ -28,8 +28,28 @@ export default {
     };
   },
   async mounted() {
-    const response = await getPost(this.$route.params.id);
-    this.post = response.data;
+    try {
+      const response = await getPost(this.$route.params.id);
+      this.post = response.data;
+    } catch (error) {
+      if (error.response.status === 404) {
+        this.$toasted.show(error.response.data.message, {
+          type: 'error'
+        });
+        /**
+         * @todo
+         *
+         * create 404 page
+         */
+        this.$router.push('/');
+      }
+
+      if (error.response.status === 500) {
+        this.$toasted.show(error.response.data.message, {
+          type: 'error'
+        });
+      }
+    }
   }
 };
 </script>

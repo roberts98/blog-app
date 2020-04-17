@@ -3,6 +3,10 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Post } from './post.entity';
 import { CreatePostDto } from './dto/createPost.dto';
 import { User } from 'src/user/user.entity';
+import {
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {
@@ -33,12 +37,24 @@ export class PostRepository extends Repository<Post> {
   }
 
   async getPost(id: number): Promise<Post> {
-    const post = await this.createQueryBuilder('post')
-      .innerJoin('post.user', 'user')
-      .addSelect(['user.username'])
-      .where('post.id = :id', { id })
-      .getOne();
+    try {
+      const post = await this.createQueryBuilder('post')
+        .innerJoin('post.user', 'user')
+        .addSelect(['user.username'])
+        .where('post.id = :id', { id })
+        .getOne();
 
-    return post;
+      if (!post) {
+        throw new NotFoundException('Post not found!');
+      }
+
+      return post;
+    } catch (error) {
+      if (error.response.statusCode == 404) {
+        throw new NotFoundException('Post not found!');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 }
