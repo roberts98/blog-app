@@ -31,7 +31,7 @@
   "dependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier:client"
+      "pre-commit": "npm run prettier:client && npm run prettier:server"
     }
   }
 }

@@ -17,18 +17,19 @@
       <div>
         <span class="comments__author">
           {{ comment.user.username }} on
-          <span class="comments__date">
-            {{ comment.createdAt | formatDate }}
-          </span>
+          <span class="comments__date">{{
+            comment.createdAt | formatDate
+          }}</span>
         </span>
         <div class="comments__body">{{ comment.body }}</div>
       </div>
     </div>
-    <CommentsForm :onSubmit="addComment" />
+    <CommentsForm v-if="user" :onSubmit="addComment" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { getComments, addComment } from '../services/posts.service';
 import CommentsForm from './CommentsForm';
 
@@ -43,6 +44,9 @@ export default {
       comments: []
     };
   },
+  computed: mapState({
+    user: state => state.auth.user
+  }),
   async mounted() {
     try {
       const response = await getComments(this.$props.postId);

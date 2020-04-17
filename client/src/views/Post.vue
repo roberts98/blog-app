@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import { getPost } from '../services/posts.service';
 import Comments from '../components/Comments';
 
