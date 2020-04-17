@@ -4,8 +4,8 @@
       <router-link to="/">Blog app</router-link>
     </h2>
     <div v-if="token" class="header__right">
-      <Avatar />
-      <Button :onClick="logout" variant="white">Logout</Button>
+      <Avatar :onClick="toggleDropdown" />
+      <Dropdown :toggleDropdown="toggleDropdown" :isOpen="isDropdownOpen" />
     </div>
     <div v-else class="header__right">
       <router-link to="/login">
@@ -23,20 +23,27 @@ import { mapState } from 'vuex';
 
 import Button from '../shared/Button';
 import Avatar from './Avatar';
+import Dropdown from './Dropdown';
 
 export default {
   name: 'Header',
   components: {
     Button,
-    Avatar
+    Avatar,
+    Dropdown
+  },
+  data() {
+    return {
+      isDropdownOpen: false
+    };
   },
   computed: mapState({
     token: state => state.auth.token,
     username: state => state.auth.user.username
   }),
   methods: {
-    logout() {
-      this.$store.dispatch('logout');
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
     }
   }
 };
@@ -50,6 +57,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  position: relative;
 
   &__logo {
     font-size: 40px;

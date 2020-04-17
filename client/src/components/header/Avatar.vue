@@ -1,8 +1,6 @@
 <template>
-  <div class="avatar" v-if="avatar">
-    <router-link to="/profile">
-      <img class="avatar__img" :src="avatar" alt="avatar" />
-    </router-link>
+  <div @click="onClick" class="avatar" v-if="avatar">
+    <img class="avatar__img" :src="avatar" alt="avatar" />
   </div>
 </template>
 
@@ -13,6 +11,7 @@ import { getAvatar } from '../../services/user.service';
 
 export default {
   name: 'Avatar',
+  props: ['onClick'],
   computed: {
     ...mapGetters(['avatar'])
   },
@@ -25,7 +24,8 @@ export default {
 
 <style lang="scss" scoped>
 .avatar {
-  margin-right: 20px;
+  cursor: pointer;
+
   &__img {
     width: 48px;
     height: 48px;
