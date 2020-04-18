@@ -31,11 +31,13 @@ export class UserService {
       const isPasswordValid = await user.validatePassword(oldPassword);
 
       if (!isPasswordValid) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException('Password is not valid!');
       }
 
       if (password === oldPassword) {
-        throw new UnprocessableEntityException();
+        throw new UnprocessableEntityException(
+          'Old password cannot be the same as new password!',
+        );
       }
 
       if (password) {
@@ -56,12 +58,11 @@ export class UserService {
 
       return user;
     } catch (error) {
-      if (error.response.statusCode === 401) {
-        throw new UnauthorizedException('Password is not valid!');
-      } else if (error.response.statusCode === 422) {
-        throw new UnprocessableEntityException(
-          'Old password cannot be the same as new password!',
-        );
+      if (
+        error.response.statusCode === 401 ||
+        error.response.statusCode === 422
+      ) {
+        throw error;
       } else {
         throw new InternalServerErrorException();
       }

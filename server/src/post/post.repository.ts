@@ -43,7 +43,6 @@ export class PostRepository extends Repository<Post> {
         .addSelect(['user.username'])
         .where('post.id = :id', { id })
         .getOne();
-
       if (!post) {
         throw new NotFoundException('Post not found!');
       }
@@ -51,7 +50,7 @@ export class PostRepository extends Repository<Post> {
       return post;
     } catch (error) {
       if (error.response.statusCode == 404) {
-        throw new NotFoundException('Post not found!');
+        throw error;
       } else {
         throw new InternalServerErrorException();
       }
