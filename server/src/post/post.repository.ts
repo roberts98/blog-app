@@ -11,29 +11,46 @@ import {
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {
   async createPost(createPostDto: CreatePostDto, user: User): Promise<Post> {
-    const { title, body, thumbnail, summary } = createPostDto;
+    try {
+      const { title, body, thumbnail, summary } = createPostDto;
 
-    const post = new Post();
-    post.title = title;
-    post.body = body;
-    post.summary = summary;
-    post.thumbnail = thumbnail;
-    post.createdAt = new Date();
-    post.user = user;
-    await post.save();
+      const post = new Post();
+      post.title = title;
+      post.body = body;
+      post.summary = summary;
+      post.thumbnail = thumbnail;
+      post.createdAt = new Date();
+      post.user = user;
+      await post.save();
 
-    delete post.user;
+      delete post.user;
 
-    return post;
+      return post;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async getPosts(): Promise<Post[]> {
-    const posts = await this.createQueryBuilder('post')
-      .innerJoin('post.user', 'user')
-      .orderBy('post.id', 'DESC')
-      .addSelect(['user.username'])
-      .getMany();
-    return posts;
+    try {
+      const posts = await this.createQueryBuilder('post')
+        .innerJoin('post.user', 'user')
+        .orderBy('post.id', 'DESC')
+        .addSelect(['user.username'])
+        .getMany();
+
+      if (!posts) {
+        throw new NotFoundException('No posts found!');
+      }
+
+      return posts;
+    } catch (error) {
+      if (error.response.statusCode == 404) {
+        throw error;
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async getPost(id: number): Promise<Post> {

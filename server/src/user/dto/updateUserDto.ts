@@ -1,6 +1,8 @@
 import { IsString, IsOptional, MinLength, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto {
+  @ApiProperty()
   @IsString()
   @MinLength(6, {
     message: 'Old password must be at least 6 characters',
@@ -10,6 +12,7 @@ export class UpdateUserDto {
   })
   oldPassword: string;
 
+  @ApiProperty()
   @IsString()
   @IsOptional()
   @MinLength(6, {
@@ -20,6 +23,7 @@ export class UpdateUserDto {
   })
   password: string;
 
+  @ApiProperty()
   @IsString()
   @IsOptional()
   bio: string;

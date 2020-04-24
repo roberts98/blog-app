@@ -1,6 +1,8 @@
 import { IsString, MinLength, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthCredentialsDto {
+  @ApiProperty()
   @IsString()
   @MinLength(6, {
     message: 'Username must be at least 6 characters',
@@ -10,6 +12,7 @@ export class AuthCredentialsDto {
   })
   username: string;
 
+  @ApiProperty()
   @IsString()
   @MinLength(6, {
     message: 'Password must be at least 6 characters',

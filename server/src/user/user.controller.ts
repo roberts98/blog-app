@@ -15,25 +15,41 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import * as aws from 'aws-sdk';
+import {
+  ApiOkResponse,
+  ApiUnprocessableEntityResponse,
+  ApiUnauthorizedResponse,
+  ApiInternalServerErrorResponse,
+  ApiBadRequestResponse,
+  ApiConsumes,
+  ApiBody,
+} from '@nestjs/swagger';
 
 import { UserService } from './user.service';
 import { GetUser } from './get-user.decorator';
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/updateUserDto';
 import { allowedTypes } from '../utils/avatar';
+import { FileUploadDto } from './dto/fileUploadDto';
 
+@ApiInternalServerErrorResponse({ description: 'Internal server error' })
 @UseGuards(AuthGuard('jwt'))
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
+  @ApiOkResponse({ description: 'User data retrieved successfully' })
   getUser(@GetUser() user: User) {
     return this.userService.getUser(user);
   }
 
   @Patch()
+  @ApiOkResponse({ description: 'The user data has been successfully updated' })
+  @ApiUnauthorizedResponse({ description: 'Invalid password ' })
+  @ApiUnprocessableEntityResponse({
+    description: 'The old password cannot be the same as current one',
+  })
   updateUser(
     @GetUser() user: User,
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
@@ -43,6 +59,10 @@ export class UserController {
 
   @Patch('avatar')
   @UseInterceptors(FileInterceptor('avatar'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ description: 'avatar', type: FileUploadDto })
+  @ApiOkResponse({ description: 'The avatar has been successfully updated' })
+  @ApiBadRequestResponse({ description: 'Bad extension or too big size' })
   uploadAvatar(
     @GetUser() user: User,
     @UploadedFile() avatar: any,
@@ -62,10 +82,13 @@ export class UserController {
   }
 
   @Get('avatar')
+  @ApiOkResponse({ description: 'Avatar successfully retrieved' })
   getAvatar(@GetUser() user) {
     return user.avatar;
   }
 
+  @ApiOkResponse({ description: 'User successfully authorized' })
+  @ApiUnauthorizedResponse({ description: 'Token is invalid' })
   @Get('authorize')
   validateToken(@GetUser() user, @Res() res: Response) {
     if (!user) {
