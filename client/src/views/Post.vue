@@ -36,12 +36,7 @@ export default {
         this.$toasted.show(error.response.data.message, {
           type: 'error'
         });
-        /**
-         * @todo
-         *
-         * create 404 page
-         */
-        this.$router.push('/');
+        this.$router.push('/not-found');
       }
 
       if (error.response.status === 500) {

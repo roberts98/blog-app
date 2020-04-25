@@ -8,6 +8,7 @@ import CreatePost from '../views/CreatePost';
 import Post from '../views/Post';
 import Profile from '../views/Profile';
 import ProfileEdit from '../views/ProfileEdit';
+import Page404 from '../views/Page404';
 
 Vue.use(Router);
 
@@ -56,6 +57,10 @@ const router = new Router({
       meta: {
         privateRoute: true
       }
+    },
+    {
+      path: '*',
+      component: Page404
     }
   ]
 });
