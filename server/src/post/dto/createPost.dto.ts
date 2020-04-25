@@ -8,6 +8,7 @@ export class CreatePostDto {
   title: string;
 
   @ApiProperty()
+  @MinLength(50)
   @IsString()
   body: string;
 

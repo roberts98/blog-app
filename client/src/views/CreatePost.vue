@@ -13,13 +13,13 @@
           label="Title*"
           type="text"
         />
-        <label :for="id">Body</label>
-        <wysiwyg id="body" v-model="body" />
+        <label for="body">Body</label>
+        <ckeditor :editor="editor" v-model="body" />
         <Input
           v-model="summary"
           placeholder="Summary"
           id="summary"
-          label="Summary*"
+          label="Summary"
           type="text"
         />
         <Input
@@ -37,6 +37,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import Input from '../components/shared/Input';
 import Button from '../components/shared/Button';
@@ -52,7 +53,8 @@ export default {
       title: '',
       body: '',
       summary: '',
-      thumbnail: ''
+      thumbnail: '',
+      editor: ClassicEditor
     };
   },
   methods: {
@@ -65,13 +67,28 @@ export default {
         thumbnail
       };
 
-      this.$store.dispatch('addPost', post);
+      if (title.length < 6) {
+        return this.$toasted.show(
+          'The title must be at least 6 characters long',
+          {
+            type: 'error'
+          }
+        );
+      }
+
+      this.$store.dispatch('addPost', post).then(() => {
+        this.$store.state.posts.messages.forEach(message => {
+          this.$toasted.show(message, {
+            type: this.$store.state.posts.messageType
+          });
+        });
+      });
     }
   }
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .create-post {
   margin-top: 60px;
 
@@ -88,5 +105,9 @@ export default {
       padding-left: 20px;
     }
   }
+}
+
+.ck-editor__editable {
+  height: 300px;
 }
 </style>

@@ -6,6 +6,7 @@ import {
   ValidationPipe,
   Get,
   Param,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -32,7 +33,7 @@ export class PostController {
   @ApiCreatedResponse({ description: 'The post has been successfully created' })
   createPost(
     @GetUser() user: User,
-    @Body(ValidationPipe) createPostDto: CreatePostDto,
+    @Body() createPostDto: CreatePostDto,
   ): Promise<PostEntity> {
     return this.postService.createPost(createPostDto, user);
   }

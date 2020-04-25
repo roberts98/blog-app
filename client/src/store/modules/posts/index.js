@@ -12,7 +12,8 @@ import router from '../../../router';
 const state = {
   items: [],
   isLoading: false,
-  error: ''
+  messages: [],
+  messageType: 'default'
 };
 
 const getters = {};
@@ -25,7 +26,21 @@ const actions = {
       commit(ADD_POST_SUCCESS, response.data);
       router.push('/');
     } catch (error) {
-      commit(ADD_POST_FAILURE, error);
+      if (error.response.status === 400) {
+        const errors = [];
+        error.response.data.message.map(error => {
+          Object.keys(error.constraints).forEach(key => {
+            const errorMessage = error.constraints[key];
+            errors.push(errorMessage);
+          });
+        });
+
+        commit(ADD_POST_FAILURE, errors);
+      }
+
+      if (error.response.status === 500) {
+        commit(ADD_POST_FAILURE, [error.response.statusText]);
+      }
     }
   },
 
@@ -35,7 +50,13 @@ const actions = {
       const response = await getPosts();
       commit(GET_POSTS_SUCCESS, response.data);
     } catch (error) {
-      commit(GET_POSTS_FAILURE, error);
+      if (error.response.status === 404) {
+        commit(GET_POSTS_FAILURE, [error.response.data.message]);
+      }
+
+      if (error.response.status === 500) {
+        commit(GET_POSTS_FAILURE, [error.response.statusText]);
+      }
     }
   }
 };
@@ -48,11 +69,14 @@ const mutations = {
   [ADD_POST_SUCCESS](state, post) {
     state.isLoading = false;
     state.items.push(post);
+    state.messages = ['Post has been added successfully'];
+    state.messageType = 'success';
   },
 
   [ADD_POST_FAILURE](state, error) {
     state.isLoading = false;
-    state.error = error;
+    state.messages = error;
+    state.messageType = 'error';
   },
 
   [GET_POSTS_REQUEST]() {
@@ -66,7 +90,8 @@ const mutations = {
 
   [GET_POSTS_FAILURE](state, error) {
     state.isLoading = false;
-    state.error = error;
+    state.messages = error;
+    state.messageType = 'error';
   }
 };
 

@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Axios from 'axios';
-import wysiwyg from 'vue-wysiwyg';
 import moment from 'moment';
 import Toasted from 'vue-toasted';
+import CKEditor from '@ckeditor/ckeditor5-vue/';
 import 'normalize.css';
 
 import App from './App.vue';
@@ -27,7 +27,7 @@ Vue.filter('formatDate', function(value) {
   }
 });
 
-Vue.use(wysiwyg, {});
+Vue.use(CKEditor);
 Vue.use(Toasted, {
   position: 'bottom-right',
   duration: 3000

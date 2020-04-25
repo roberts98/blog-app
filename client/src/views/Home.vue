@@ -15,7 +15,13 @@ export default {
     PostTeaser
   },
   mounted() {
-    this.$store.dispatch('getPosts');
+    this.$store.dispatch('getPosts').then(() => {
+      this.$store.state.posts.messages.forEach(message => {
+        this.$toasted.show(message, {
+          type: this.$store.state.posts.messageType
+        });
+      });
+    });
   },
   computed: mapState({
     posts: state => state.posts.items
