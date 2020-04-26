@@ -1,17 +1,19 @@
 <template>
   <div class="post">
-    <h2 class="post__title">
-      <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
-      <span class="post__author">
-        written by
-        <span class="post__username">{{ post.user.username }}</span>
-      </span>
-    </h2>
-    <p class="post__date">Published: {{ post.createdAt | formatDate }}</p>
     <div class="post__thumbnail">
       <img :src="post.thumbnail" :alt="post.title" />
     </div>
-    <p class="post__body">{{ post.summary }}</p>
+    <div class="post__content">
+      <p class="post__date">Published: {{ post.createdAt | formatDate }}</p>
+      <h2 class="post__title">
+        <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
+      </h2>
+      <p class="post__body">{{ post.summary }}</p>
+      <div class="post__author">
+        <img :src="post.user.avatar" :alt="post.user.username" />
+        <p>{{ post.user.username }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -25,25 +27,35 @@ export default {
 <style scoped lang="scss">
 .post {
   background-color: $col-white;
-  padding: 20px 40px;
-  margin-top: 20px;
+  box-shadow: 1px 2px 4px rgba($col-black, 0.4);
+
+  &__content {
+    padding: 10px 20px;
+  }
 
   &__title {
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 400;
-    text-transform: uppercase;
     margin-bottom: 8px;
+    word-break: break-all;
 
     a {
       text-decoration: none;
-      color: $col-light-gray;
+      color: $col-text;
     }
   }
 
   &__author {
-    font-size: 20px;
-    text-transform: none;
-    font-style: italic;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
   }
 
   &__username {
@@ -60,7 +72,7 @@ export default {
 
     &::before {
       content: '';
-      background-image: url("data:image/svg+xml,%3Csvg fill='%23777' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 12v-6h-2v8h7v-2h-5z'/%3E%3C/svg%3E");
+      background-image: $i-time;
       background-size: contain;
       position: absolute;
       left: 0;
@@ -72,14 +84,15 @@ export default {
 
   &__thumbnail {
     img {
-      width: 400px;
-      height: 200px;
+      width: 100%;
+      max-height: 200px;
       object-fit: cover;
     }
   }
 
   &__body {
     line-height: 2;
+    font-size: 14px;
   }
 }
 </style>

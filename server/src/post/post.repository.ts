@@ -36,7 +36,7 @@ export class PostRepository extends Repository<Post> {
       const posts = await this.createQueryBuilder('post')
         .innerJoin('post.user', 'user')
         .orderBy('post.id', 'DESC')
-        .addSelect(['user.username'])
+        .addSelect(['user.username', 'user.avatar'])
         .getMany();
 
       if (!posts) {

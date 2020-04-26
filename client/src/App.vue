@@ -14,6 +14,11 @@ export default {
   components: {
     Header
   },
+  data() {
+    return {
+      isHomepage: false
+    };
+  },
   mounted() {
     store.dispatch('fetchUser');
   }

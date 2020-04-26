@@ -1,6 +1,11 @@
 <template>
-  <div class="container">
-    <PostTeaser :key="post.id" v-for="post in posts" :post="post" />
+  <div class="page">
+    <Slider />
+    <div class="container">
+      <div class="row page__posts">
+        <PostTeaser :key="post.id" v-for="post in posts" :post="post" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -8,11 +13,13 @@
 import { mapState } from 'vuex';
 
 import PostTeaser from '../components/PostTeaser';
+import Slider from '../components/homepage/Slider';
 
 export default {
   name: 'Home',
   components: {
-    PostTeaser
+    PostTeaser,
+    Slider
   },
   mounted() {
     this.$store.dispatch('getPosts').then(() => {
@@ -28,3 +35,16 @@ export default {
   })
 };
 </script>
+
+<style lang="scss" scoped>
+.page {
+  &__posts {
+    margin-top: 80px;
+    margin-bottom: 80px;
+    display: grid;
+    grid-template-columns: 33.33333% 33.33333% 33.33333%;
+    column-gap: 20px;
+    row-gap: 40px;
+  }
+}
+</style>

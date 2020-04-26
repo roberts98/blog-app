@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header :class="{ header: true, 'header--homepage': isHomepage }">
     <h2 class="header__logo">
       <router-link to="/">Blog app</router-link>
     </h2>
@@ -34,7 +34,8 @@ export default {
   },
   data() {
     return {
-      isDropdownOpen: false
+      isDropdownOpen: false,
+      isHomepage: false
     };
   },
   computed: mapState({
@@ -45,6 +46,11 @@ export default {
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     }
+  },
+  watch: {
+    $route() {
+      this.isHomepage = this.$router.currentRoute.path === '/';
+    }
   }
 };
 </script>
@@ -52,12 +58,17 @@ export default {
 <style scoped lang="scss">
 .header {
   height: 80px;
-  background: $col-primary;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
   position: relative;
+  z-index: 100;
+  background-color: $col-primary;
+
+  &--homepage {
+    background-color: transparent;
+  }
 
   &__logo {
     font-size: 40px;
