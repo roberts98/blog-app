@@ -42,6 +42,9 @@ export default {
     token: state => state.auth.token,
     username: state => state.auth.user.username
   }),
+  mounted() {
+    this.isHomepage = this.$router.currentRoute.path === '/';
+  },
   methods: {
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;

@@ -8,7 +8,7 @@
       <h2 class="post__title">
         <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
       </h2>
-      <p class="post__body">{{ post.summary }}</p>
+      <p class="post__body">{{ post.summary.substring(0, 150) }}</p>
       <div class="post__author">
         <img :src="post.user.avatar" :alt="post.user.username" />
         <p>{{ post.user.username }}</p>
