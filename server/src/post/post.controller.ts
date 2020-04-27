@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   InternalServerErrorException,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -41,8 +42,18 @@ export class PostController {
   @Get()
   @ApiOkResponse({ description: 'Posts successfully retrieved' })
   @ApiNotFoundResponse({ description: 'No posts found' })
-  getPosts(): Promise<PostEntity[]> {
-    return this.postService.getPosts();
+  getPosts(
+    @Query('show') show: number,
+    @Query('skip') skip: number,
+  ): Promise<{ posts: PostEntity[]; count: number }> {
+    return this.postService.getPosts(show, skip);
+  }
+
+  @Get('slider')
+  @ApiOkResponse({ description: 'Posts successfully retrieved' })
+  @ApiNotFoundResponse({ description: 'No posts found' })
+  getSliderPosts(): Promise<{ posts: PostEntity[]; count: number }> {
+    return this.postService.getSliderPosts();
   }
 
   @Get(':postId')

@@ -7,8 +7,18 @@ export function createPost(data) {
   });
 }
 
-export function getPosts() {
+export function getPosts(show, skip) {
   return axios('/api/posts', {
+    method: 'GET',
+    params: {
+      skip,
+      show
+    }
+  });
+}
+
+export function getSliderPosts() {
+  return axios('/api/posts/slider', {
     method: 'GET'
   });
 }

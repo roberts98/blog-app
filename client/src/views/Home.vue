@@ -21,14 +21,26 @@ export default {
     PostTeaser,
     Slider
   },
+  methods: {
+    scroll() {
+      window.onscroll = () => {
+        const bottomOfWindow =
+          Math.max(
+            window.pageYOffset,
+            document.documentElement.scrollTop,
+            document.body.scrollTop
+          ) +
+            window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          this.$store.dispatch('loadMore');
+        }
+      };
+    }
+  },
   mounted() {
-    this.$store.dispatch('getPosts').then(() => {
-      this.$store.state.posts.messages.forEach(message => {
-        this.$toasted.show(message, {
-          type: this.$store.state.posts.messageType
-        });
-      });
-    });
+    this.scroll();
   },
   computed: mapState({
     posts: state => state.posts.items

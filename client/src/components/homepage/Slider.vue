@@ -6,12 +6,8 @@
           <img :src="post.thumbnail" />
         </div>
         <div class="slider__content">
-          <p class="slider__author">
-            {{ post.user.username }}
-          </p>
-          <h3 class="slider__title">
-            {{ post.title }}
-          </h3>
+          <p class="slider__author">{{ post.user.username }}</p>
+          <h3 class="slider__title">{{ post.title }}</h3>
           <router-link :to="`/post/${post.id}`">
             <Button variant="white--outline">Read the article</Button>
           </router-link>
@@ -25,6 +21,7 @@
 import { mapState } from 'vuex';
 import { Carousel, Slide } from 'vue-carousel';
 
+import { getSliderPosts } from '../../services/posts.service';
 import Button from '../shared/Button';
 
 export default {
@@ -34,9 +31,34 @@ export default {
     Slide,
     Button
   },
-  computed: mapState({
-    posts: state => state.posts.items
-  })
+  data() {
+    return {
+      posts: []
+    };
+  },
+  methods: {
+    async getPosts() {
+      try {
+        const response = await getSliderPosts();
+        this.posts = response.data.posts;
+      } catch (error) {
+        if (error.response.status === 404) {
+          this.$toasted.show(error.response.data.message, {
+            type: 'error'
+          });
+        }
+
+        if (error.response.status === 500) {
+          this.$toasted.show(error.response.data.statusText, {
+            type: 'error'
+          });
+        }
+      }
+    }
+  },
+  mounted() {
+    this.getPosts();
+  }
 };
 </script>
 

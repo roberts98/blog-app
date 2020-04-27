@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import store from './store';
 import Header from './components/header/Header';
 
 export default {
@@ -20,7 +19,14 @@ export default {
     };
   },
   mounted() {
-    store.dispatch('fetchUser');
+    this.$store.dispatch('fetchUser');
+    this.$store.dispatch('getPosts').then(() => {
+      this.$store.state.posts.messages.forEach(message => {
+        this.$toasted.show(message, {
+          type: this.$store.state.posts.messageType
+        });
+      });
+    });
   }
 };
 </script>

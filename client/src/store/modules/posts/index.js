@@ -5,7 +5,8 @@ import {
   ADD_POST_SUCCESS,
   GET_POSTS_FAILURE,
   GET_POSTS_REQUEST,
-  GET_POSTS_SUCCESS
+  GET_POSTS_SUCCESS,
+  UPDATE_FILTERS
 } from './types';
 import router from '../../../router';
 
@@ -13,10 +14,18 @@ const state = {
   items: [],
   isLoading: false,
   messages: [],
-  messageType: 'default'
+  messageType: 'default',
+  filters: {
+    show: 3,
+    skip: 0
+  },
+  itemsCount: 0
 };
 
-const getters = {};
+const getters = {
+  filters: ({ filters }) => filters,
+  itemsCount: ({ itemsCount }) => itemsCount
+};
 
 const actions = {
   async addPost({ commit }, post) {
@@ -44,10 +53,12 @@ const actions = {
     }
   },
 
-  async getPosts({ commit }) {
+  async getPosts({ commit, getters }) {
+    const { show, skip } = getters.filters;
+
     try {
       commit(GET_POSTS_REQUEST);
-      const response = await getPosts();
+      const response = await getPosts(show, skip);
       commit(GET_POSTS_SUCCESS, response.data);
     } catch (error) {
       if (error.response.status === 404) {
@@ -57,6 +68,17 @@ const actions = {
       if (error.response.status === 500) {
         commit(GET_POSTS_FAILURE, [error.response.statusText]);
       }
+    }
+  },
+
+  loadMore({ commit, getters, dispatch }) {
+    const { show, skip } = getters.filters;
+    const { itemsCount } = getters;
+
+    if (itemsCount > skip + 3) {
+      commit(UPDATE_FILTERS, { show, skip: skip + 3 });
+
+      dispatch('getPosts');
     }
   }
 };
@@ -83,15 +105,20 @@ const mutations = {
     state.isLoading = true;
   },
 
-  [GET_POSTS_SUCCESS](state, posts) {
+  [GET_POSTS_SUCCESS](state, result) {
     state.isLoading = false;
-    state.items = posts;
+    state.items = [...state.items, ...result.posts];
+    state.itemsCount = result.count;
   },
 
   [GET_POSTS_FAILURE](state, error) {
     state.isLoading = false;
     state.messages = error;
     state.messageType = 'error';
+  },
+
+  [UPDATE_FILTERS](state, filters) {
+    state.filters = filters;
   }
 };
 

@@ -31,19 +31,27 @@ export class PostRepository extends Repository<Post> {
     }
   }
 
-  async getPosts(): Promise<Post[]> {
+  async getPosts(
+    show: number,
+    skip: number,
+  ): Promise<{ posts: Post[]; count: number }> {
     try {
-      const posts = await this.createQueryBuilder('post')
+      show = show || 3;
+      skip = skip || 0;
+
+      const result = await this.createQueryBuilder('post')
         .innerJoin('post.user', 'user')
         .orderBy('post.id', 'DESC')
+        .offset(skip)
+        .limit(show)
         .addSelect(['user.username', 'user.avatar'])
-        .getMany();
+        .getManyAndCount();
 
-      if (!posts) {
+      if (!result) {
         throw new NotFoundException('No posts found!');
       }
 
-      return posts;
+      return { posts: result[0], count: result[1] };
     } catch (error) {
       if (error.response.statusCode == 404) {
         throw error;

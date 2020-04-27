@@ -20,8 +20,17 @@ export class PostService {
     return this.postRepository.createPost(createPostDto, user);
   }
 
-  getPosts() {
-    return this.postRepository.getPosts();
+  getPosts(show: number, skip: number) {
+    return this.postRepository.getPosts(show, skip);
+  }
+
+  /**
+   * @todo
+   *
+   * add method in postrepository to retrieve posts for slider based on displayOnSlider field value
+   */
+  getSliderPosts() {
+    return this.postRepository.getPosts(3, 0);
   }
 
   getPost(id: number) {
