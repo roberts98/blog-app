@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import app from '../main';
 import Register from '../views/Register';
 import Home from '../views/Home';
 import Login from '../views/Login';

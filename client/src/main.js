@@ -3,6 +3,7 @@ import Axios from 'axios';
 import moment from 'moment';
 import Toasted from 'vue-toasted';
 import CKEditor from '@ckeditor/ckeditor5-vue/';
+import ProgressBar from 'vue-progressbar';
 import 'normalize.css';
 
 import App from './App.vue';
@@ -31,6 +32,11 @@ Vue.use(CKEditor);
 Vue.use(Toasted, {
   position: 'bottom-right',
   duration: 3000
+});
+Vue.use(ProgressBar, {
+  color: 'rgb(60, 120, 200)',
+  failedColor: 'red',
+  thickness: '2px'
 });
 
 Vue.$mount;

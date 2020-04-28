@@ -2,6 +2,7 @@
   <div id="app">
     <Header />
     <router-view />
+    <vue-progress-bar></vue-progress-bar>
   </div>
 </template>
 
@@ -19,6 +20,15 @@ export default {
     };
   },
   mounted() {
+    this.$router.beforeEach((to, from, next) => {
+      this.$Progress.start();
+
+      next();
+    });
+    this.$router.afterEach((to, from) => {
+      this.$Progress.finish();
+    });
+
     this.$store.dispatch('fetchUser');
     this.$store.dispatch('getPosts').then(() => {
       this.$store.state.posts.messages.forEach(message => {
